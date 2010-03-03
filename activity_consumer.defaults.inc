@@ -184,7 +184,7 @@ function _activity_consumer_feeds_importer_default() {
         ),
       ),
     ),
-    'content_type' => 'feed_fast',
+    'content_type' => 'activity_feed',
     'update' => 0,
     'import_period' => '1800',
     'expire_period' => 3600,
