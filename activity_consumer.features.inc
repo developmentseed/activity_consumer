@@ -26,3 +26,12 @@ function activity_consumer_feeds_importer_default() {
   $args = func_get_args();
   return call_user_func_array('_activity_consumer_feeds_importer_default', $args);
 }
+
+/**
+ * Implementation of hook_node_info().
+ */
+function activity_consumer_node_info() {
+  module_load_include('inc', 'activity_consumer', 'activity_consumer.features.node');
+  $args = func_get_args();
+  return call_user_func_array('_activity_consumer_node_info', $args);
+}
