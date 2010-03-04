@@ -1,13 +1,57 @@
 <?php
 
 /**
+ * Helper to implementation of hook_context_default_contexts().
+ */
+function _activity_consumer_context_default_contexts() {
+  $export = array();
+  $context = new stdClass;
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'activity_consumer_user';
+  $context->description = '';
+  $context->tag = 'Activity consumer';
+  $context->conditions = array(
+    'user_page' => array(
+      'values' => array(
+        'current' => 'current',
+        'other' => 'other',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'views-activity_consumer_user-block_2' => array(
+          'module' => 'views',
+          'delta' => 'activity_consumer_user-block_2',
+          'region' => 'content',
+          'weight' => 0,
+        ),
+      ),
+    ),
+  );
+  $context->condition_mode = 0;
+
+  $translatables['activity_consumer_user'] = array(
+    t('Activity consumer'),
+  );
+
+  $export['activity_consumer_user'] = $context;
+  return $export;
+}
+
+/**
  * Helper to implementation of hook_ctools_plugin_api().
  */
 function _activity_consumer_ctools_plugin_api() {
   $args = func_get_args();
   $module = array_shift($args);
   $api = array_shift($args);
-  if ($module == "data" && $api == "data_default") {
+  if ($module == "context" && $api == "context") {
+    return array("version" => 3);
+  }
+  else if ($module == "data" && $api == "data_default") {
     return array("version" => 1);
   }
   else if ($module == "feeds" && $api == "feeds_importer_default") {

@@ -1,6 +1,15 @@
 <?php
 
 /**
+ * Implementation of hook_context_default_contexts().
+ */
+function activity_consumer_context_default_contexts() {
+  module_load_include('inc', 'activity_consumer', 'activity_consumer.defaults');
+  $args = func_get_args();
+  return call_user_func_array('_activity_consumer_context_default_contexts', $args);
+}
+
+/**
  * Implementation of hook_ctools_plugin_api().
  */
 function activity_consumer_ctools_plugin_api() {

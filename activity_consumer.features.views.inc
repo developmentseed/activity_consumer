@@ -131,7 +131,7 @@ function _activity_consumer_views_default_views() {
       'style_options' => array(),
       'wildcard' => 'all',
       'wildcard_substitution' => 'All',
-      'title' => '',
+      'title' => '%1\'s activity on affiliate sites',
       'breadcrumb' => '',
       'default_argument_type' => 'user',
       'default_argument' => '',
