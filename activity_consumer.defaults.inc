@@ -153,6 +153,7 @@ function _activity_consumer_data_default() {
         'views_sort_handler' => 'views_handler_sort',
       ),
     ),
+    'join' => array(),
   );
 
   $export['feeds_data_activity_feed'] = $data_table;
