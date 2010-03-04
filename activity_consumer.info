@@ -1,5 +1,6 @@
 core = "6.x"
 dependencies[] = "feeds"
+dependencies[] = "features"
 dependencies[] = "data"
 features[ctools][] = "data_tables"
 features[ctools][] = "feeds_importer"
