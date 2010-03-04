@@ -95,7 +95,7 @@ function _activity_consumer_views_default_views() {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
-  $handler->override_option('title', 'Activity on affiliate sites');
+  $handler->override_option('title', 'Affiliate sites');
   $handler->override_option('use_ajax', TRUE);
   $handler->override_option('use_pager', 'mini');
   $handler->override_option('style_plugin', 'table');
@@ -123,7 +123,7 @@ function _activity_consumer_views_default_views() {
   $handler = $view->new_display('block', 'Activity on affiliate sites', 'block_1');
   $handler->override_option('block_description', 'Activity on affiliate sites');
   $handler->override_option('block_caching', -1);
-  $handler = $view->new_display('block', 'User\'s activity on affiliate sites', 'block_2');
+  $handler = $view->new_display('block', 'User activity on affiliate sites', 'block_2');
   $handler->override_option('arguments', array(
     'author_email' => array(
       'default_action' => 'default',
@@ -131,7 +131,7 @@ function _activity_consumer_views_default_views() {
       'style_options' => array(),
       'wildcard' => 'all',
       'wildcard_substitution' => 'All',
-      'title' => '%1\'s activity on affiliate sites',
+      'title' => '%1 on affiliate sites',
       'breadcrumb' => '',
       'default_argument_type' => 'user',
       'default_argument' => '',
@@ -202,12 +202,13 @@ function _activity_consumer_views_default_views() {
       ),
     ),
   ));
-  $handler->override_option('block_description', '');
+  $handler->override_option('block_description', 'User activity on affiliate sites');
   $handler->override_option('block_caching', -1);
   $translatables['activity_consumer_user'] = array(
     t('Activity on affiliate sites'),
+    t('Affiliate sites'),
     t('Defaults'),
-    t('User\'s activity on affiliate sites'),
+    t('User activity on affiliate sites'),
   );
 
   $views[$view->name] = $view;
