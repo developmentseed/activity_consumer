@@ -1,3 +1,20 @@
 <?php
 
 include_once('activity_consumer.features.inc');
+
+/**
+ * Implementation of hook_views_api().
+ */
+function activity_consumer_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'activity_consumer') .'/views',
+  );
+}
+
+/**
+ * Implementation of hook_data_views_handlers_alter().
+ */
+function activity_consumer_data_views_handlers_alter(&$handlers) {
+  $handlers['argument']['views_handler_argument_activity_consumer_author_identifier'] = 'views_handler_argument_activity_consumer_author_identifier';
+}
