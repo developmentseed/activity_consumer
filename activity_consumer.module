@@ -18,3 +18,90 @@ function activity_consumer_views_api() {
 function activity_consumer_data_views_handlers_alter(&$handlers) {
   $handlers['argument']['views_handler_argument_activity_consumer_author_identifier'] = 'views_handler_argument_activity_consumer_author_identifier';
 }
+
+/**
+ * Add activity_consumer_rp_edit_submit() as additional submit handler to the
+ * OpenID Provider SSO RP form.
+ */
+function activity_consumer_form_openid_provider_sso_rp_edit_form_alter(&$form, &$form_state) {
+  $form['#submit'][] = 'activity_consumer_rp_edit_submit';
+}
+
+/**
+ * Add activity_consumer_rp_remove_submit() as additional submit handler to the
+ * OpenID Provider SSO RP form.
+ */
+function activity_consumer_form_openid_provider_sso_rp_remove_form_alter(&$form, &$form_state) {
+  $form['#submit'][] = 'activity_consumer_rp_remove_submit';
+}
+
+/**
+ * When a relying party is created or edited, make sure we are subscribed to its
+ * activity feeds.
+ */
+function activity_consumer_rp_edit_submit($form, $form_state) {
+  activity_consumer_subscribe($form_state['values']['realm']);
+}
+
+/**
+ * When a relying party is removed, make sure it is unsubscribed
+ * from its activity feeds.
+ */
+function activity_consumer_rp_remove_submit($form, $form_state) {
+  activity_consumer_unsubscribe($form['#realm']);
+}
+
+/**
+ * Available activity feeds.
+ */
+function activity_consumer_feeds() {
+  return array(
+    'activity/posts',
+    'activity/updates',
+    'activity/comments',
+  );
+}
+
+/**
+ * Retrieve a feed node id for a given feed URL.
+ */
+function activity_consumer_feed_nid($feed_url) {
+  return db_result(db_query('SELECT fs.feed_nid FROM {node} n JOIN {feeds_source} fs ON n.nid = fs.feed_nid WHERE fs.id = "activity_feed" AND fs.source = "%s"', $feed_url));
+}
+
+/**
+ * Subscribe to a sites' activity feeds.
+ *
+ * @param $site_url
+ *   The URL of the site. E. g. http://example.com/
+ */
+function activity_consumer_subscribe($site_url) {
+  module_load_include('inc', 'node', 'node.pages');
+  $url = trim($site_url, '/');
+  foreach (activity_consumer_feeds() as $feed) {
+    if (!activity_consumer_feed_nid("$url/$feed")) {
+      $node = new stdClass();
+      $node->type = 'activity_feed';
+      $node->title = "Subscription to $url/$feed";
+      $node->feeds = array();
+      $node->feeds['FeedsHTTPFetcher']['source'] = "$url/$feed";
+      node_object_prepare($node);
+      node_save($node);
+    }
+  }
+}
+
+/**
+ * Cancel subscriptions to a sites' activity feeds.
+ *
+ * @param $site_url
+ *   The URL of the site. E. g. http://example.com/
+ */
+function activity_consumer_unsubscribe($site_url) {
+  $url = trim($site_url, '/');
+  foreach (activity_consumer_feeds() as $feed) {
+    if ($nid = activity_consumer_feed_nid("$url/$feed")) {
+      node_delete($nid);
+    }
+  }
+}
