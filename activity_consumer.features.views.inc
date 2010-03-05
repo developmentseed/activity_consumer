@@ -360,7 +360,8 @@ function _activity_consumer_views_default_views() {
     ),
   ));
   $handler->override_option('access', array(
-    'type' => 'none',
+    'type' => 'perm',
+    'perm' => 'administer openid provider',
   ));
   $handler->override_option('cache', array(
     'type' => 'none',
