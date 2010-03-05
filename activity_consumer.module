@@ -13,6 +13,22 @@ function activity_consumer_views_api() {
 }
 
 /**
+ * Implementation of hook_cron().
+ *
+ * Once a day, subscribe to new RPs.
+ */
+function activity_consumer_cron() {
+  if (time() > variable_get('activity_consumer_cron', 0) + 84600) {
+    ctools_include('export');
+    $objects = ctools_export_load_object('openid_provider_sso_rps');
+    foreach ($objects as $obj) {
+      activity_consumer_subscribe($obj->realm);
+    }
+    variable_get('activity_consumer_cron', time());
+  }
+}
+
+/**
  * Implementation of hook_data_views_handlers_alter().
  */
 function activity_consumer_data_views_handlers_alter(&$handlers) {
