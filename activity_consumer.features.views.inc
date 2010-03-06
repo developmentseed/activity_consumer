@@ -182,26 +182,6 @@ function _activity_consumer_views_default_views() {
       'validate_argument_php' => '',
     ),
   ));
-  $handler->override_option('filters', array(
-    'module' => array(
-      'operator' => '=',
-      'value' => 'openid',
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'case' => 1,
-      'id' => 'module',
-      'table' => 'authmap',
-      'field' => 'module',
-      'relationship' => 'author_email',
-      'override' => array(
-        'button' => 'Use default',
-      ),
-    ),
-  ));
   $handler->override_option('block_description', 'User activity on affiliate sites');
   $handler->override_option('block_caching', -1);
   $translatables['activity_consumer_user'] = array(
